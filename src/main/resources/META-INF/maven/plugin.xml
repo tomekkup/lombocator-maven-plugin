@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin>
+    <name>Lombok Mutators Refactor Plugin</name>
+    <description>
+        Maven plugin that replaces trivial Java getters and setters
+        with Lombok @Getter and @Setter annotations and generates HTML report.
+    </description>
+    <groupId>pl.tomekkup</groupId>
+    <artifactId>lombocator-maven-plugin</artifactId>
+    <version>1.0.1</version>
+    <goalPrefix>lombok-refactor</goalPrefix>
+    <isolatedRealm>false</isolatedRealm>
+    <inheritedByDefault>true</inheritedByDefault>
+
+    <mojos>
+        <mojo>
+            <goal>refactor</goal>
+            <description>
+                Replaces trivial getters and setters with Lombok annotations
+                and generates an HTML report.
+            </description>
+            <implementation>pl.tomekkup.LombocatorMavenPojo</implementation>
+            <language>java</language>
+
+            <phase>process-sources</phase>
+            <requiresProject>true</requiresProject>
+            <requiresDependencyResolution>compile</requiresDependencyResolution>
+            <requiresDirectInvocation>false</requiresDirectInvocation>
+            <requiresOnline>false</requiresOnline>
+            <inheritedByDefault>true</inheritedByDefault>
+            <threadSafe>true</threadSafe>
+
+            <parameters>
+                <parameter>
+                    <name>sourceDirectory</name>
+                    <type>java.io.File</type>
+                    <required>true</required>
+                    <editable>true</editable>
+                    <description>Source directory to scan for Java files.</description>
+                </parameter>
+
+                <parameter>
+                    <name>reportFile</name>
+                    <type>java.io.File</type>
+                    <required>true</required>
+                    <editable>true</editable>
+                    <description>Location of generated HTML report.</description>
+                </parameter>
+            </parameters>
+
+            <configuration>
+                <sourceDirectory implementation="java.io.File">
+                    ${project.basedir}/src/main/java
+                </sourceDirectory>
+
+                <reportFile implementation="java.io.File">
+                    ${project.build.directory}/lombok-report.html
+                </reportFile>
+            </configuration>
+        </mojo>
+    </mojos>
+</plugin>
