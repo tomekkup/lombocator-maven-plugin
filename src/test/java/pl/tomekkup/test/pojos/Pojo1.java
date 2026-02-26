@@ -1,6 +1,6 @@
-package pl.tomekkup.test;
+package pl.tomekkup.test.pojos;
 
-public class Pojo {
+public class Pojo1 {
 
     private Object first;
 
