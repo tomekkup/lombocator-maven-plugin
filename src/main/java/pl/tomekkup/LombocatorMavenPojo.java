@@ -7,12 +7,14 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 
+import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.*;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 
@@ -48,7 +50,7 @@ public class LombocatorMavenPojo extends AbstractMojo {
     private void processFile(Path path) {
         try {
             CompilationUnit cu = StaticJavaParser.parse(path);
-
+            LexicalPreservingPrinter.setup(cu);
             for (ClassOrInterfaceDeclaration clazz : cu.findAll(ClassOrInterfaceDeclaration.class)) {
                 for (MethodDeclaration method : clazz.getMethods()) {
 
@@ -92,7 +94,7 @@ public class LombocatorMavenPojo extends AbstractMojo {
                 // Backup file
                 Path backup = Paths.get(path.toString() + ".bak");
                 Files.copy(path, backup, StandardCopyOption.REPLACE_EXISTING);
-                Files.write(path, cu.toString().getBytes());
+                Files.write(path, cu.toString().getBytes(StandardCharsets.UTF_8));
             }
 
         } catch (Exception e) {

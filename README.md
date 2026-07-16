@@ -71,8 +71,8 @@ In the target project's `pom.xml`:
     <plugins>
         <plugin>
             <groupId>pl.tomekkup</groupId>
-            <artifactId>lombok-refactor-enterprise</artifactId>
-            <version>1.0.1</version>
+            <artifactId>lombocator-maven-plugin</artifactId>
+            <version>1.0.2</version>
             <executions>
                 <execution>
                     <goals>
